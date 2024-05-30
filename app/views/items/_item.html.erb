@@ -1,0 +1,67 @@
+<div id="<%= dom_id item %>">
+  <p>
+    <strong>Name:</strong>   
+    <%= item.name %>
+    <button class="btn btn-sm btn-danger" id="add-to-collection">add to your collection</button>
+  </p>
+  <% if item.image_url.present? %>
+    <p>
+      <strong>Image:</strong> <br>
+      <%= image_tag item.image_url, alt: item.name, class: "img-fluid rounded", style: "max-width: 200px;" %>
+    </p>
+  <% end %>
+
+<p>
+    <strong>Item category:</strong>
+    <%= item.category %>
+  </p>
+  <p>
+    <strong>Description:</strong>
+    <%= item.details %>
+  </p>
+
+  <!--swswe present?: This method checks whether the object itself is present, meaning it's not nil or empty. It's commonly used with ActiveRecord associations, where it checks if the association exists or has any records.
+  
+  any?: This method checks whether the collection (such as an array or ActiveRecord association) contains any elements. It returns true if the collection is not empty and false if it's empty.
+  -->
+  <% if item.field_details.present? %>
+    <h3>Details</h3>
+    <table class="table table-bordered">
+      <tbody>
+        <% item.field_details.each do |field_detail| %>
+          <% if field_detail.field_val.present? %>
+            <tr>
+              <th><%= field_detail.field_name %></th>
+              <td><%= field_detail.field_val %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+
+<% content_for :javascript do %>
+<script>
+  $(document).ready(function() {
+    $('#add-to-collection').on('click', function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '<%= add_to_collection_path(@item) %>',
+        dataType: 'json',
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+          $('#collection-status').html('<p class="text-success">This item is now in your collection.</p>');
+        },
+        error: function(response) {
+          $('#collection-status').html('<p class="text-danger">There was an error adding this item to your collection.</p>');
+        }
+      });
+    });
+  });
+</script>
+<% end %>

@@ -1,0 +1,43 @@
+ <header id="header" class="header fixed-top" data-scrollto-offset="0">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>zabeer's<span>.</span></h1>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><%= link_to 'Home', root_path, class: 'nav-link scrollto' %></li>
+          <% if user_signed_in? %>
+            <li>
+              <%= link_to "Profile", edit_user_registration_path %>
+            </li>
+            <li>
+              <%= link_to 'Your Collections', collections_path, class: 'nav-link scrollto' %>
+            </li>
+
+          <% end %>
+          <li><%= link_to 'Users', users_path, class: 'nav-link scrollto' %></li>
+          <li><%= link_to 'Categories', categories_path, class: 'nav-link scrollto' %></li>
+          <li><%= link_to 'Items', items_path, class: 'nav-link scrollto' %></li>
+          
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle d-none"></i>
+      </nav><!-- .navbar -->
+
+      <% if user_signed_in? %>
+<%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-danger btn-sm" %>
+
+<% else %>
+
+<%= link_to "Login", new_user_session_path %>
+
+<!-- <%= link_to "Sign Up", new_user_registration_path %> -->
+
+
+<% end %>
+
+    </div>
+  </header><!-- End Header -->

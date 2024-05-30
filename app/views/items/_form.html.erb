@@ -1,0 +1,75 @@
+<%= form_with(model: item, id: "myForm", multipart: true) do |form| %>
+<div class="mb-3">
+    <%= form.label :image_url %>
+   <%= form.file_field :image_url %>
+  </div>
+
+<div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+<div class="mb-3">
+  <%= form.label :category, "category", class: "form-label" %>
+  <select class="form-select" name="item[category]" aria-label="Select Item Type">
+    <option value="" selected disabled>Select Item Type</option>
+    <% @categories.each do |category| %>
+      <option value="<%= category.name %>"><%= category.name %></option>
+    <% end %>
+  </select>
+</div>
+
+  <div class="mb-3">
+    <%= form.label :details, class: "form-label" %>
+    <%= form.text_area :details, class: "form-control" %>
+  </div>
+  <hr class="bg-danger border-2 border-top border-danger" />
+
+ 
+  <!-- repeaterqwqw -->
+<div class="d-flex align-items-center">
+  <h5 class="mb-0 text-sucess">Add New Field <h6 class="text-danger mt-2"> (if needed) </h6></h5> 
+  <span class="ms-3"><button type="button" class="btn btn-primary btn-sm" data-repeater-create>Add Fields</button></span>
+</div>
+  <div data-repeater-list="fieldDetails">
+   
+<%= form.fields_for :field_details do |ff| %>
+  <div data-repeater-item>
+    <div class="mb-3">
+      <%= ff.label :field_name, class: "form-label" %>
+      <%= ff.text_field :field_name, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :field_val, class: "form-label" %>
+      <%= ff.text_field :field_val, class: "form-control" %>
+    </div>
+    <%= ff.hidden_field :_destroy %>
+    <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>Delete</button>
+  </div>
+<% end %>
+
+    
+  </div>
+  
+ 
+  
+
+   
+  <br>   <br>  <br>
+  <div class="d-grid gap-2">
+  <%= form.submit "Save", class: "btn btn-primary btn-sm" %>
+</div>
+<% end %>
+
+
+<% content_for :javascript do %>
+<script>
+$(document).ready(function() {
+  $('#myForm').repeater({
+    // Options for jQuery Repeater
+  });
+});
+</script>
+<% end %>
+
+ 
