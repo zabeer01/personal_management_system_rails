@@ -1,38 +1,37 @@
 <div class="container">
   <h1 class="text-center bg-danger p-2">Collections that you Added</h1>
   <div class="reload">
-      <% @items.each do |category, items_by_category| %>
-        <h2 class="text-center"><%= category %></h2>
-        <div class="row">
-          <% items_by_category.each do |item| %>
-            <div class="col-md-4 mb-4">
-              <a href="<%= item_path(item) %>">
-                <div class="card" style="width: 100%;">
-                  <% if item.image_url.present? %>
-                    <%= image_tag item.image_url, alt: item.name, class: "img-fluid rounded", style: "max-width: 100%;" %>
-                  <% end %>
-                  <div class="card-body">
-                    <h5 class="card-title"><%= item.name %></h5>
-                    <p class="card-text"><%= item.details %></p>
-                  </div>
+    <% @items.each do |category, items_by_category| %>
+      <h2 class="text-center"><%= category %></h2>
+      <div class="row">
+        <% items_by_category.each do |item| %>
+          <div class="col-md-4 mb-4">
+            <a href="<%= item_path(item) %>">
+              <div class="card" style="width: 100%;">
+                <% if item.image_url.present? %>
+                  <%= image_tag item.image_url, alt: item.name, class: "img-fluid rounded", style: "max-width: 100%;" %>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= item.name %></h5>
+                  <p class="card-text"><%= item.details %></p>
                 </div>
-              </a>
-              <!-- Add data-item-id attribute to store the item's ID -->
-              <button class="btn btn-danger btn-sm remove-from-collection" data-item-id="<%= item.id %>">Remove</button>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+              </div>
+            </a>
+            <!-- Add data-item-id attribute to store the item's ID -->
+            <button class="btn btn-danger btn-sm remove-from-collection" data-item-id="<%= item.id %>">Remove</button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
-
 
 <% content_for :javascript do %>
 <script>
   $(document).ready(function() {
     // Use event delegation to bind click event to a static parent element
-    $('.remove-from-collection').on('click',function(event) {
-        event.preventDefault();
+    $('.reload').on('click', '.remove-from-collection', function(event) {
+      event.preventDefault();
       // Retrieve itemId from the data-item-id attribute of the clicked button
       var itemId = $(this).data('item-id');
       var removeItem = $(this).closest('.col-md-4');
@@ -50,7 +49,7 @@
           console.log('hi');
 
           // Reload only the content within the reload container
-         /*  $('.reload').load(location.href + ' .reload > *'); */
+          $('.reload').load(location.href + ' .reload > *');
         },
         error: function(response) {
           // Optionally handle error scenario
