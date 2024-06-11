@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_060808) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_11_111511) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -66,6 +66,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_060808) do
 
   create_table "landing_pages", force: :cascade do |t|
     t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.string "summary"
+    t.string "priority"
+    t.string "status"
+    t.string "reported"
+    t.string "collection"
+    t.string "link"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
