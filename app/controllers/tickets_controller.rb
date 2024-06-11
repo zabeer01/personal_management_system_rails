@@ -10,6 +10,11 @@ class TicketsController < ApplicationController
 
   # GET /tickets/1 or /tickets/1.json
   def show
+    @ticket = Ticket.find(params[:id])
+    @user = User.find_by(id: @ticket.user_id)
+  
+    # Ensure the user is authorized to view this ticket
+    
   end
 
   # GET /tickets/new
@@ -25,9 +30,12 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
 
+    @ticket.user_id = current_user.id
+    @ticket.save!
+
     respond_to do |format|
       if @ticket.save
-        format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully created." }
+        format.html { redirect_to root_path, notice: "Ticket was successfully created." }
         format.json { render :show, status: :created, location: @ticket }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,6 +57,7 @@ class TicketsController < ApplicationController
     end
   end
 
+
   # DELETE /tickets/1 or /tickets/1.json
   def destroy
     @ticket.destroy!
@@ -57,6 +66,9 @@ class TicketsController < ApplicationController
       format.html { redirect_to tickets_url, notice: "Ticket was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def help
   end
 
   private

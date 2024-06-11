@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :tickets
+
   
   resources :categories
   resources :items
@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   
 
+  resources :tickets
+  get 'help', to: 'tickets#help', as: 'help_tickets'
   # Defines the root path route ("/")
   root "landing_pages#index"
 end
